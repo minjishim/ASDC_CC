@@ -1,36 +1,38 @@
-# (12주차 정렬+이진탐색) 합이 0인 네 정수
+# (12주차 : 정렬) 7453 - 합이 0인 네 정수
+
+# 정수로 이루어진 크기가 같은 배열 A, B, C, D가 있다. A[a], B[b], C[c], D[d]의 합이 0인 (a, b, c, d) 쌍의 개수를 구하는 프로그램을 작성하시오.
+
 from sys import stdin
 
-#빠른 입출력
 input = stdin.readline
 
 n = int(input())
-A, B, C, D = [], [], [], []
-AB = dict()
+
+a_list, b_list, c_list, d_list = [], [], [], []
+ab_dic = dict()
 result = 0
 
 for _ in range(n):
-  a, b, c, d = map(int, input().split())
-  A.append(a)
-  B.append(b)
-  C.append(c)
-  D.append(d)
+    a, b, c, d = map(int, input().split())
+    a_list.append(a)
+    b_list.append(b)
+    c_list.append(c)
+    d_list.append(d)
 
+for a in a_list:
+    for b in b_list:
+        ab = a + b
+        if ab not in ab_dic.keys():
+            # keys : ab, value : 1
+            ab_dic[ab] = 1
+        else:
+            ab_dic[ab] += 1
 
-for a in A:
-  for b in B:
-    ab = a + b
-    # ab가 key로 없다면, value를 1로 저장
-    if ab not in AB.keys():
-      AB[ab] = 1
-    # ab가 key로 존재한다면, value를 +1 해서 저장
-    else:
-      AB[ab] += 1
-
-for c in C:
-  for d in D:
-    cd = (-1) * (c + d)
-    if cd in AB.keys():
-      result += AB[cd]
+for c in c_list:
+    for d in d_list:
+        # ab + cd = 0, 이 경우에 ab = -(cd)
+        cd = (-1) * (c + d)
+        if cd in ab_dic.keys():
+            result += ab_dic[cd]
 
 print(result)
